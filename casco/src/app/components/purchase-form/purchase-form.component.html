@@ -1,68 +1,83 @@
-<form #form="ngForm">
+<form #form="ngForm" ngNativeValidate>
     <div class="jumbotron" #carInfo>
         <h1 class="display-4">მანქანის ინფორმაცია</h1>
         <hr class="my-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="radio" #logo1 [(ngModel)]="PurchaseModel.CarType" value="sedan">
-                    <img src="../../../assets/images/car.svg" style="width: 256px; height: 200px;"
-                        [ngClass]="status==1?'active':''" (click)="logo1.click();status=1" />
-                </div>
-                <div class="col-md-4">
-                    <input type="radio" #logo2 [(ngModel)]="PurchaseModel.CarType" value="cupe">
-                    <img src="../../../assets/images/cupe.svg" style="width: 256px; height: 200px;"
-                        [ngClass]="status==2?'active':''" (click)="logo2.click();status=2" />
-                </div>
-                <div class="col-md-4">
-                    <input type="radio" #logo3 [(ngModel)]="PurchaseModel.CarType" value="jeep">
-                    <img src="../../../assets/images/jeep.svg" style="width: 256px; height: 200px;"
-                        [ngClass]="status==3?'active':''" (click)="logo3.click();status=3" />
-                </div>
-            </div>
-            <div class="row nextRow">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text" oninput="this.value = this.value.toUpperCase()"
-                            class="form-control form-control-lg" mask="SS-000-SS" placeholder="მანქანის ნომერი" />
+        <form #insuredInfo="ngForm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input id="sedan" name="CarType" type="radio" #logo1 [(ngModel)]="PurchaseModel.CarType"
+                            value="sedan">
+                        <img src="../../../assets/images/car.svg" style="width: 256px; height: 200px;"
+                            [ngClass]="status==1?'active':''" (click)="logo1.click();status=1" />
+                    </div>
+                    <div class="col-md-4">
+                        <input id="cupe" name="CarType" type="radio" #logo2 [(ngModel)]="PurchaseModel.CarType"
+                            value="cupe">
+                        <img src="../../../assets/images/cupe.svg" style="width: 256px; height: 200px;"
+                            [ngClass]="status==2?'active':''" (click)="logo2.click();status=2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input id="jeep" name="CarType" type="radio" #logo3 [(ngModel)]="PurchaseModel.CarType"
+                            value="jeep">
+                        <img src="../../../assets/images/jeep.svg" style="width: 256px; height: 200px;"
+                            [ngClass]="status==3?'active':''" (click)="logo3.click();status=3" />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">$</div>
+                <div class="row nextRow">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" oninput="this.value = this.value.toUpperCase()" minlength="7"
+                                id="plateNumber" name="plateNumber" [(ngModel)]="PurchaseModel.PlateNumber"
+                                class="form-control form-control-lg" mask="SS-000-SS" placeholder="მანქანის ნომერი"
+                                required #plateNumber="ngModel" />
+                            <div [hidden]="plateNumber.valid || plateNumber.untouched" class="alert alert-danger">
+                                შეიყვანეთ მანქანის ნომერი
                             </div>
-                            <input type="number" onKeyPress="if(this.value.length==7) return false;"
-                                class="form-control form-control-lg" min="100" max="999999" maxlength="7"
-                                placeholder="მანქანის ღირებულება">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group mb-2" style="margin-bottom:0 !important">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
+                                <input id="carPrice" name="carPrice" [(ngModel)]="PurchaseModel.CarPrice"
+                                    type="text" numeric onKeyPress="if(this.value.length==7) return false;" placeholder="მანქანის ღირებულება"
+                                    class="form-control form-control-lg" min="100" max="999999" maxlength="7"
+                                    required #carPrice="ngModel"/>     
+                                                               
+                            </div>
+                            <div [hidden]="carPrice.valid || carPrice.untouched" class="alert alert-danger">
+                                შეიყვანეთ მანქანის ღირებულება
+                            </div>    
                         </div>
                     </div>
                 </div>
+                <div class="row nextRow">
+                    <div class="col-md-6">
+                        <input type="number" class="form-control form-control-lg" placeholder="გამოშვების თარიღი" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="number" class="form-control form-control-lg" placeholder="დამზღვევის ასაკი" />
+                    </div>
+                </div>
+                <div class="row nextRow">
+                    <div class="col-md-6">
+                        <select class="form-control form-control-lg" required>
+                            <option value="">გადახდის პერიოდი</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control form-control-lg" required>
+                            <option value="">ფრანშიზა</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="row nextRow">
-                <div class="col-md-6">
-                    <input type="number" class="form-control form-control-lg" placeholder="გამოშვების თარიღი" />
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control form-control-lg" placeholder="დამზღვევის ასაკი" />
-                </div>
-            </div>
-            <div class="row nextRow">
-                <div class="col-md-6">
-                    <select class="form-control form-control-lg">
-                        <option value="undefined">გადახდის პერიოდი</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <select class="form-control form-control-lg">
-                        <option value="undefined">ფრანშიზა</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+        </form>
         <div class="float-right">
-            <button class="btn btn-primary btn-lg"
+            <button class="btn btn-primary btn-lg" [disabled]="insuredInfo.form.invalid"
                 (click)="carInfo.style.display= 'none'; personalInfo.style.display= 'block'">დაზღვეულის
                 ინფორმაცია</button>
         </div>

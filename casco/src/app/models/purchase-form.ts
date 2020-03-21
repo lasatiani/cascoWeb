@@ -7,7 +7,7 @@ export class PurchaseForm {
     Mobile:string;
     ClientAge:string;
     CarType:string;
-    CarNumber:string;
+    PlateNumber:string;
     CarPrice:Number;
     ManufactoryYear:Number;
     PaymentSchedule:string;
